@@ -40,8 +40,8 @@ $app->post('/create_preference', function (Request $request, Response $response,
 
         $item = new MercadoPago\Item();
         $item->title = $data->description;
-        $item->quantity = $data->quantity;
-        $item->unit_price = $data->price;
+        $item->quantity = (int)$data->quantity;
+        $item->unit_price = (float)$data->price;
 
         $preference->items = array($item);
 
