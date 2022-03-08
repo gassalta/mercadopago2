@@ -1,8 +1,7 @@
 // Add SDK credentials
 // REPLACE WITH YOUR PUBLIC KEY AVAILABLE IN: https://developers.mercadopago.com/panel
-const mercadopago = new MercadoPago('PUBLIC_KEY', {
-  locale: 'YOUR_LOCALE' // The most common are: 'pt-BR', 'es-AR' and 'en-US'
-});
+const publicKey = document.getElementById("mercado-pago-public-key").value;
+const mercadopago = new MercadoPago(publicKey);
 
 // Handle call to backend and generate preference.
 document.getElementById("checkout-btn").addEventListener("click", function() {
@@ -10,12 +9,12 @@ document.getElementById("checkout-btn").addEventListener("click", function() {
   $('#checkout-btn').attr("disabled", true);
   
   const orderData = {
-    quantity: document.getElementById("quantity").value,
+    quantity: parseInt(document.getElementById("quantity").value),
     description: document.getElementById("product-description").innerHTML,
     price: document.getElementById("unit-price").innerHTML
   };
     
-  fetch("/create_preference", {
+  fetch("./create_preference", {
     method: "POST",
     headers: {
         "Content-Type": "application/json",

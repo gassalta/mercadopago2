@@ -71,7 +71,7 @@ function loadCardForm() {
                     identificationType,
                 } = cardForm.getCardFormData();
 
-                fetch("/process_payment", {
+                fetch("./process_payment", {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",

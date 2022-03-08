@@ -12,7 +12,7 @@ $dotenv->load();
 
 $app = AppFactory::create();
 $app->addErrorMiddleware(true, true, true);
-$app->setBasePath("/mercadopago2");
+$app->setBasePath("/mercadopago2/card-payment-sample-php");
 
 MercadoPago\SDK::setAccessToken($_ENV["MERCADO_PAGO_SAMPLE_ACCESS_TOKEN"]);
 

@@ -1,0 +1,6 @@
+RewriteEngine On
+RewriteBase /mercadopago2/checkout-payment-sample
+
+RewriteCond %{THE_REQUEST} /server/php/([^\s?]*) [NC]
+RewriteRule ^ %1 [L,NE,R=302]
+RewriteRule ^(.*)$ server/php/index.php?$1 [L,QSA]

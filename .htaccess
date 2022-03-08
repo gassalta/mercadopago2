@@ -2,9 +2,8 @@
 #RewriteRule ^$ /card-payment-sample-php/server/ [L]
 #RewriteRule (.*) /card-payment-sample-php/server/$1 [L]
 
-RewriteEngine On
-RewriteBase /mercadopago2
-
-RewriteCond %{THE_REQUEST} /card-payment-sample-php/server/([^\s?]*) [NC]
-RewriteRule ^ %1 [L,NE,R=302]
-RewriteRule ^(.*)$ card-payment-sample-php/server/index.php?$1 [L,QSA]
+#RewriteEngine On
+#RewriteBase /mercadopago2
+#RewriteCond %{THE_REQUEST} /card-payment-sample-php/server/([^\s?]*) [NC]
+#RewriteRule ^ %1 [L,NE,R=302]
+#RewriteRule ^(.*)$ card-payment-sample-php/server/index.php?$1 [L,QSA]
