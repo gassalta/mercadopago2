@@ -18,7 +18,7 @@ $app->setBasePath("/mercadopago2/checkout-payment-sample");
 
 //REPLACE WITH YOUR ACCESS TOKEN AVAILABLE IN: https://developers.mercadopago.com/panel/credentials
 MercadoPago\SDK::setAccessToken("MERCADO_PAGO_SAMPLE_ACCESS_TOKEN");
-
+MercadoPago\SDK::setIntegratorId("dev_24c65fb163bf11ea96500242ac130004");
 //$path = ( dirname( dirname( dirname( __FILE__ ) ) ) ) ;
 
 

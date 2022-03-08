@@ -1,7 +1,9 @@
 // Add SDK credentials
 // REPLACE WITH YOUR PUBLIC KEY AVAILABLE IN: https://developers.mercadopago.com/panel
 const publicKey = document.getElementById("mercado-pago-public-key").value;
-const mercadopago = new MercadoPago(publicKey);
+const mercadopago = new MercadoPago(publicKey, {
+  locale: "es-AR",
+});
 
 // Handle call to backend and generate preference.
 document.getElementById("checkout-btn").addEventListener("click", function() {
