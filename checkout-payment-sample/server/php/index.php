@@ -59,7 +59,6 @@ $app->post('/create_preference', function (Request $request, Response $response,
         );
     
         $response_body = json_encode($response_fields);
-        exit($response_body);
         $response->getBody()->write($response_body);
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
@@ -76,10 +75,6 @@ $app->post('/create_preference', function (Request $request, Response $response,
 // process create_preference
 $app->post('/feedback', function (Request $request, Response $response, $args) {
     try {
-        $data = json_decode(file_get_contents('php://input'), true);
-        
-
-
         $response_fields = array(
             'Payment' => $_GET['payment_id'],
             'Status' => $_GET['status'],
