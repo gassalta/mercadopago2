@@ -7,9 +7,10 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
-require_once ((dirname( dirname( dirname( dirname( __FILE__ ) ) ) ) ) . '/vendor/autoload.php');
 
-$dotenv = Dotenv\Dotenv::createImmutable(dirname(dirname(dirname(dirname( __FILE__ )))));
+require_once((dirname(dirname(dirname(dirname(__FILE__))))) . '/vendor/autoload.php');
+
+$dotenv = Dotenv\Dotenv::createImmutable(dirname(dirname(dirname(dirname(__FILE__)))));
 $dotenv->load();
 
 $app = AppFactory::create();
@@ -38,6 +39,28 @@ $app->post('/create_preference', function (Request $request, Response $response,
         $data = json_decode(file_get_contents('php://input'), true);
         $preference = new MercadoPago\Preference();
 
+        $payer = new MercadoPago\Payer();
+        $payer->name = "Lalo";
+        $payer->surname = "Landa";
+        $payer->email = "test_user_63274575@testuser.com";
+        $payer->date_created = date('Y-m-d') . "T23:21:41.425-04:00";
+        $payer->phone = array(
+            "area_code" => "11",
+            "number" => "22223333"
+        );
+
+        $payer->identification = array(
+            "type" => "DNI",
+            "number" => "12345678"
+        );
+
+        $payer->address = array(
+            "street_name" => "Falsa",
+            "street_number" => 123,
+            "zip_code" => "1111"
+        );
+
+
         $item = new MercadoPago\Item();
         $item->title = $data->description;
         $item->quantity = (int)$data->quantity;
@@ -45,24 +68,37 @@ $app->post('/create_preference', function (Request $request, Response $response,
 
         $preference->items = array($item);
 
+        $preference->payment_methods = array(
+            "excluded_payment_methods" => [
+                ["id" => "amex"]
+            ],
+            "excluded_payment_types" => [
+                ["id" => "atm"]
+            ],
+            "installments" => 6
+        );
         $preference->back_urls = array(
             "success" => "https://feneg.com.ar/mercadopago2/checkout-payment-sample/feedback",
-            "failure" => "https://feneg.com.ar/mercadopago2/checkout-payment-sample/feedback", 
+            "failure" => "https://feneg.com.ar/mercadopago2/checkout-payment-sample/feedback",
             "pending" => "https://feneg.com.ar/mercadopago2/checkout-payment-sample/feedback"
         );
-        $preference->auto_return = "approved"; 
+        $preference->auto_return = "approved";
+        $preference->payer = $payer;
+        $preference->notification_url = "https://webhook.site/9ab4bc9c-8f0e-4986-8eec-f7682dd17267";
+
+            $preference->external_reference = "gaston-alta@hotmail.com";
 
         $preference->save();
 
         $response_fields = array(
             'id' => $preference->id,
         );
-    
+
         $response_body = json_encode($response_fields);
         $response->getBody()->write($response_body);
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
-    } catch(Exception $exception) {
+    } catch (Exception $exception) {
         $response_fields = array('error_message' => $exception->getMessage());
 
         $response_body = json_encode($response_fields);
@@ -78,14 +114,14 @@ $app->post('/feedback', function (Request $request, Response $response, $args) {
         $response_fields = array(
             'Payment' => $_GET['payment_id'],
             'Status' => $_GET['status'],
-            'MerchantOrder' => $_GET['merchant_order_id']  
+            'MerchantOrder' => $_GET['merchant_order_id']
         );
-    
+
         $response_body = json_encode($response_fields);
         $response->getBody()->write($response_body);
 
         return $response->withHeader('Content-Type', 'application/json')->withStatus(201);
-    } catch(Exception $exception) {
+    } catch (Exception $exception) {
         $response_fields = array('error_message' => $exception->getMessage());
 
         $response_body = json_encode($response_fields);
