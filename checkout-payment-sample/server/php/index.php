@@ -37,13 +37,12 @@ $app->get('/', function (Request $request, Response $response, $args) {
 $app->post('/create_preference', function (Request $request, Response $response, $args) {
     try {
         $data = json_decode(file_get_contents('php://input'), true);
-        $preference = new MercadoPago\Preference();
 
         $payer = new MercadoPago\Payer();
         $payer->name = "Lalo";
         $payer->surname = "Landa";
-        $payer->email = "test_user_63274575@testuser.com";
-        $payer->date_created = date('Y-m-d') . "T23:21:41.425-04:00";
+        $payer->email = "test_user_47713184@testuser.com";
+        $payer->date_created = date('Y-m-d') . "T".date('H:i').":41.425-04:00";
         $payer->phone = array(
             "area_code" => "11",
             "number" => "22223333"
@@ -60,9 +59,13 @@ $app->post('/create_preference', function (Request $request, Response $response,
             "zip_code" => "1111"
         );
 
+        $preference = new MercadoPago\Preference();
 
         $item = new MercadoPago\Item();
+        $item->id = "1234";
         $item->title = $data->description;
+        $item->description = $data->description;
+        $item->category_id = "book";
         $item->quantity = (int)$data->quantity;
         $item->unit_price = (float)$data->price;
 
@@ -86,7 +89,7 @@ $app->post('/create_preference', function (Request $request, Response $response,
         $preference->payer = $payer;
         $preference->notification_url = "https://webhook.site/9ab4bc9c-8f0e-4986-8eec-f7682dd17267";
 
-            $preference->external_reference = "gaston-alta@hotmail.com";
+        $preference->external_reference = "gaston-alta@hotmail.com";
 
         $preference->save();
 
