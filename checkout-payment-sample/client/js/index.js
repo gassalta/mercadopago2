@@ -1,10 +1,10 @@
 // Add SDK credentials
 // REPLACE WITH YOUR PUBLIC KEY AVAILABLE IN: https://developers.mercadopago.com/panel
-const publicKey = document.getElementById("mercado-pago-public-key").value;
+/* const publicKey = document.getElementById("mercado-pago-public-key").value;
 const mercadopago = new MercadoPago(publicKey, {
   locale: "es-AR",
 });
-
+ */
 // Handle call to backend and generate preference.
 document.getElementById("checkout-btn").addEventListener("click", function() {
 
@@ -40,7 +40,7 @@ document.getElementById("checkout-btn").addEventListener("click", function() {
     });
 });
 
-// Create preference when click on checkout button
+/* // Create preference when click on checkout button
 function createCheckoutButton(preferenceId) {
   // Initialize the checkout
   mercadopago.checkout({
@@ -52,6 +52,19 @@ function createCheckoutButton(preferenceId) {
       label: 'Pay', // Change the payment button text (optional)
     }
   });
+} */
+
+//Create preference when click on checkout button
+function createCheckoutButton(preference) {
+  var script = document.createElement("script");
+
+  // The source domain must be completed according to the site for which you are integrating.
+  // For example: for Argentina ".com.ar" or for Brazil ".com.br".
+  script.src = "https://www.mercadopago.com.ar/integrations/v1/web-payment-checkout.js";
+  script.type = "text/javascript";
+  script.dataset.preferenceId = preference;
+  document.getElementById("button-checkout").innerHTML = "";
+  document.querySelector("#button-checkout").appendChild(script);
 }
 
 // Handle price update
